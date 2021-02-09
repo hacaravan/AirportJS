@@ -3,9 +3,9 @@
 describe("Airport", function() {
   var plane;
   var airport;
+  var loadsOfPlanes;
 
   beforeEach(function() {
-    console.log("I'm inside before each")
     plane = new Plane();
     airport = new Airport();
   });
@@ -43,5 +43,16 @@ describe("Airport", function() {
       airport.takeOff(plane)
       expect(plane.isFlying).toBe(true)
     })
+  });
+
+  describe("Airport availble spaces", function() {
+    it("can't land a plane if the airport is full", function(){
+      var fullAirport = new Airport();
+      for (var i = 0; i < 20; i++) {
+        loadsOfPlanes = new Plane();
+        fullAirport.land(loadsOfPlanes);
+      }
+      expect(function() { fullAirport.land(plane) ;}).toThrow("Can't land plane, airport is full")
+    });
   });
 });
