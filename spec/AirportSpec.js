@@ -1,8 +1,20 @@
+"use strict"
+
 describe("Airport", function() {
 
+  beforeEach(function() {
+    plane = new Plane;
+    airport = new Airport;
+  });
+
+  describe("Landing a Plane", function() {
     it ("should be able to land a plane", function() {
-      let plane = new Plane
-      let airport = new Airport
-      expect(airport.land(plane)).toEqual(plane)
+      expect(airport.land(plane)).toEqual(plane);
     });
+
+    it ("should not be able to land a plane if isFlying is false", function() {
+      airport.land(plane);
+      expect(function(){airport.land(plane);}).toThrow("Can't land a landed plane");
+    });
+  });
 });

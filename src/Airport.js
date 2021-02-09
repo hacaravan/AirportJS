@@ -4,9 +4,14 @@ class Airport {
 
   plane = new Plane;
 
-  land = plane => { 
-    plane.isFlying = false;
-    return plane;
+  land = plane => {
+    if (plane.isFlying) {
+
+      plane.isFlying = false;
+      return plane;
+    } else {
+      throw("Can't land a landed plane");
+    }
   }
 }
 
