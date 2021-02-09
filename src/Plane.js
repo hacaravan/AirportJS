@@ -1,5 +1,5 @@
 "use strict"
 
 class Plane {
- isFlying = false
+ isFlying = true
 }

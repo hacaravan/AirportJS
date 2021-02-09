@@ -1,5 +1,13 @@
 "use strict"
 
 class Airport {
-  land = plane => plane
+
+  plane = new Plane;
+
+  land = plane => { 
+    plane.isFlying = false;
+    return plane;
+  }
 }
+
+// isDivisibleByFive = n => { return n%5 === 0; }
