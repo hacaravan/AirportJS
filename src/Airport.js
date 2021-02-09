@@ -13,6 +13,8 @@ class Airport {
       throw("Can't land a landed plane");
     }
   }
+
+  takeOff = plane => plane
 }
 
 // isDivisibleByFive = n => { return n%5 === 0; }
