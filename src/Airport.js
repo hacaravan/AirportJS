@@ -14,7 +14,13 @@ class Airport {
     }
   }
 
-  takeOff = plane => plane
+  takeOff = plane => {
+    if (plane.isFlying) {
+      throw("Can't take off a flying plane");
+    }
+    plane.isFlying = true;
+    return plane;
+  }
 }
 
 // isDivisibleByFive = n => { return n%5 === 0; }
