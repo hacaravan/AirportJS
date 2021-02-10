@@ -2,9 +2,11 @@
 
 class Airport {
 
-  constructor(){
+  // this.blah = "blah blah"
+
+  constructor(capacity){
     this.planes = [];
-    this.capacity = 20;
+    this.capacity = capacity || 20;
   }
 
   land = plane => {
@@ -29,8 +31,8 @@ class Airport {
     plane.isFlying = true;
     var foundPlane;
     foundPlane = this.planes.indexOf(plane)
-    this.planes.splice(foundPlane, 1) 
+    this.planes.splice(foundPlane, 1)
     return plane;
   }
- 
+
 }

@@ -4,6 +4,8 @@ describe("Airport", function() {
   var plane;
   var airport;
   var loadsOfPlanes;
+  var bigAirport
+  var fillBigAirport
 
   beforeEach(function() {
     plane = new Plane();
@@ -47,12 +49,39 @@ describe("Airport", function() {
 
   describe("Airport availble spaces", function() {
     it("can't land a plane if the airport is full", function(){
-      var fullAirport = new Airport();
-      for (var i = 0; i < 20; i++) {
+      for (let i = 0; i < airport.capacity; i++) {
         loadsOfPlanes = new Plane();
-        fullAirport.land(loadsOfPlanes);
+        airport.land(loadsOfPlanes);
       }
-      expect(function() { fullAirport.land(plane) ;}).toThrow("Can't land plane, airport is full")
+      expect(function() { airport.land(plane) ;}).toThrow("Can't land plane, airport is full")
+    });
+  });
+
+  describe("Airport capacity", function() {
+    it("Defaults to 20", function(){
+      for (let i = 0; i < 20; i++) {
+        loadsOfPlanes = new Plane();
+        airport.land(loadsOfPlanes);
+      }
+      expect(function() { airport.land(plane) ;}).toThrow("Can't land plane, airport is full")
+    });
+    describe("When passed a larger capacity at creation", function() {
+      beforeEach(function() {
+        bigAirport = new Airport(100);
+        fillBigAirport = function() {
+          for(let i = 0; i < 100; i++) {
+            loadsOfPlanes = new Plane();
+            bigAirport.land(loadsOfPlanes);
+          }
+        };
+      });
+      it("doesn't throw an error when filling that larger capacity", function(){
+        expect(fillBigAirport).not.toThrow("Can't land plane, airport is full") ;
+      });
+      it("throws an error after reaching that capacity", function() {
+        fillBigAirport()
+        expect(function() { bigAirport.land(plane) } ).toThrow("Can't land plane, airport is full")
+      })
     });
   });
 });
