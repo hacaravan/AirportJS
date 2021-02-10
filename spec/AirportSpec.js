@@ -4,12 +4,11 @@ describe("Airport", function() {
   var plane;
   var airport;
   var loadsOfPlanes;
-  var bigAirport
-  var fillBigAirport
 
   beforeEach(function() {
     plane = new Plane();
     airport = new Airport();
+    spyOn(airport, 'weather').and.returnValue('Sunny');
   });
 
 
@@ -66,14 +65,15 @@ describe("Airport", function() {
       expect(function() { airport.land(plane) ;}).toThrow("Can't land plane, airport is full")
     });
     describe("When passed a larger capacity at creation", function() {
+      var bigAirport;
+      const fillBigAirport = function() {
+        for(let i = 0; i < 100; i++) {
+          loadsOfPlanes = new Plane();
+          bigAirport.land(loadsOfPlanes);
+        }
+      };
       beforeEach(function() {
         bigAirport = new Airport(100);
-        fillBigAirport = function() {
-          for(let i = 0; i < 100; i++) {
-            loadsOfPlanes = new Plane();
-            bigAirport.land(loadsOfPlanes);
-          }
-        };
       });
       it("doesn't throw an error when filling that larger capacity", function(){
         expect(fillBigAirport).not.toThrow("Can't land plane, airport is full") ;
@@ -84,4 +84,26 @@ describe("Airport", function() {
       })
     });
   });
+
+  describe("Weather", function() {
+    var randomWeatherAirport = new Airport();
+    const weatherOptions = ['Stormy', 'Sunny'];
+    let lotsOfRuns = [];
+    const runWeatherLots = function() {
+      for(let i = 0; i < 100000; i++) {
+        let weather = randomWeatherAirport.weather();
+        if(!lotsOfRuns.includes(weather)) {
+          lotsOfRuns.push(weather)
+        }
+      }
+    }
+    it("returns either sunny or stormy", function() {
+      expect(weatherOptions).toContain(randomWeatherAirport.weather());
+    });
+    it("returns both sunny and stormy", function() {
+      runWeatherLots()
+      expect(lotsOfRuns.sort()).toEqual(weatherOptions)
+    })
+  })
+
 });

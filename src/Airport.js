@@ -35,4 +35,10 @@ class Airport {
     return plane;
   }
 
+  weather = function() {
+    let weatherOptions = ['Sunny', 'Stormy'];
+    let randIndex = Math.floor(Math.random() * weatherOptions.length);
+    return weatherOptions[randIndex]
+   }
+
 }
