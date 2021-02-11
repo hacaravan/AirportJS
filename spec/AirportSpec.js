@@ -3,12 +3,15 @@
 describe("Airport", function() {
   var plane;
   var airport;
+  var stormyAirport;
   var loadsOfPlanes;
 
   beforeEach(function() {
     plane = new Plane();
     airport = new Airport();
+    stormyAirport = new Airport();
     spyOn(airport, 'weather').and.returnValue('Sunny');
+    spyOn(stormyAirport, 'weather').and.returnValue('Stormy');
   });
 
 
@@ -26,7 +29,11 @@ describe("Airport", function() {
       airport.land(plane);
       expect(plane.isFlying).toBe(false);
     });
-
+    describe("When the weather is stormy", function() {
+      it("raises an error", function() {
+        expect(function() { stormyAirport.land(plane) } ).toThrow("Can't land in stormy weather")
+      })
+    })
   });
 
   describe("Instructing a plane to take off", function() {
@@ -74,6 +81,7 @@ describe("Airport", function() {
       };
       beforeEach(function() {
         bigAirport = new Airport(100);
+        spyOn(bigAirport, 'weather').and.returnValue("Sunny");
       });
       it("doesn't throw an error when filling that larger capacity", function(){
         expect(fillBigAirport).not.toThrow("Can't land plane, airport is full") ;
@@ -103,6 +111,14 @@ describe("Airport", function() {
     it("returns both sunny and stormy", function() {
       runWeatherLots()
       expect(lotsOfRuns.sort()).toEqual(weatherOptions)
+    })
+    it("returns sunny much more often than stormy", function() {
+      let weatherCount = {"Sunny":0, "Stormy":0}
+      for(let i = 0; i < 100000; i++) {
+        let weather = randomWeatherAirport.weather();
+        weatherCount[weather] ++
+      }
+      expect(weatherCount["Sunny"]).toBeGreaterThan(2 * weatherCount["Stormy"])
     })
   })
 

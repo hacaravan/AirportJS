@@ -15,6 +15,9 @@ class Airport {
       if (this.planes.length >= this.capacity) {
         throw("Can't land plane, airport is full");
       }
+      if (this.weather() === "Stormy") {
+        throw("Can't land in stormy weather")
+      }
       plane.isFlying = false;
       this.planes.push(plane)
       return plane;
@@ -36,9 +39,13 @@ class Airport {
   }
 
   weather = function() {
-    let weatherOptions = ['Sunny', 'Stormy'];
-    let randIndex = Math.floor(Math.random() * weatherOptions.length);
-    return weatherOptions[randIndex]
+    let sunnyChance = 0.9;
+    if(Math.random() > sunnyChance) {
+      return "Stormy"
+    }
+    else {
+      return "Sunny"
+    }
    }
 
 }
