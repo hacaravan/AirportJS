@@ -5,13 +5,12 @@ describe("Airport", function() {
   var airport;
   var stormyAirport;
   var loadsOfPlanes;
+  var airportWeatherSpy;
 
   beforeEach(function() {
     plane = new Plane();
     airport = new Airport();
-    stormyAirport = new Airport();
-    spyOn(airport, 'weather').and.returnValue('Sunny');
-    spyOn(stormyAirport, 'weather').and.returnValue('Stormy');
+    airportWeatherSpy = spyOn(airport, 'weather').and.returnValue('Sunny');
   });
 
 
@@ -30,7 +29,9 @@ describe("Airport", function() {
       expect(plane.isFlying).toBe(false);
     });
     describe("When the weather is stormy", function() {
+      stormyAirport = new Airport();
       it("raises an error", function() {
+        spyOn(stormyAirport, 'weather').and.returnValue('Stormy');
         expect(function() { stormyAirport.land(plane) } ).toThrow("Can't land in stormy weather")
       })
     })
@@ -50,6 +51,12 @@ describe("Airport", function() {
     it("sets flying status to true", function() {
       airport.takeOff(plane)
       expect(plane.isFlying).toBe(true)
+    })
+    describe("When weather is stormy", function() {
+      it("should raise an error", function() {
+        airportWeatherSpy.and.returnValue("Stormy");
+        expect(function() {airport.takeOff(plane) } ).toThrow("Can't take off in stormy weather");
+      })
     })
   });
 

@@ -31,6 +31,9 @@ class Airport {
     if (plane.isFlying) {
       throw("Can't take off a flying plane");
     }
+    if (this.weather() === "Stormy") {
+      throw("Can't take off in stormy weather")
+    }
     plane.isFlying = true;
     var foundPlane;
     foundPlane = this.planes.indexOf(plane)
